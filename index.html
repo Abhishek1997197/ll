@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Search</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        input { width: 80%; padding: 10px; margin: 10px 0; font-size: 16px; }
+        ul { list-style: none; padding: 0; }
+        li { padding: 10px; border-bottom: 1px solid #ccc; }
+        a { text-decoration: none; color: blue; }
+    </style>
+</head>
+<body>
+    <h1>Movie Search</h1>
+    <input type="text" id="search" placeholder="Search for a movie...">
+    <ul id="results"></ul>
+
+    <script>
+        const movieList = [
+            "https://123moviestan.com/movies/snow-white-1447273E/",
+            "https://123moviestan.com/movies/captain-america-brave-new-world-1822119E/",
+            "https://123moviestan.com/movies/the-electric-state-1777443E/",
+            "https://123moviestan.com/movies/batman-ninja-vs-yakuza-league-11297763E/",
+            "https://123moviestan.com/movies/old-guy-11077782E/",
+            "https://123moviestan.com/movies/counterattack-11356039E/",
+            "https://123moviestan.com/movies/little-siberia-11362608E/",
+            "https://123moviestan.com/movies/the-gorge-1950396E/",
+            "https://123moviestan.com/movies/revelations-11210938E/",
+            "https://123moviestan.com/movies/flight-risk-11126166E/",
+            "https://123moviestan.com/movies/demon-city-11405338E/",
+            "https://123moviestan.com/movies/memoir-of-a-snail-11064486E/",
+            "https://123moviestan.com/movies/tyler-perry-s-duplicity-11145725E/"
+        ];
+
+        // Extract movie names correctly
+        const movies = movieList.map(url => {
+            const namePart = url.split('/movies/')[1].split('-');
+            namePart.pop(); // Remove the last part (unique ID)
+            const name = namePart.join(' ');
+            return { name: name.toLowerCase(), url };
+        });
+
+        document.getElementById('search').addEventListener('input', function() {
+            const query = this.value.trim().toLowerCase();
+            const results = document.getElementById('results');
+            results.innerHTML = '';
+
+            if (query) {
+                const filteredMovies = movies.filter(movie => movie.name.includes(query));
+                filteredMovies.forEach(movie => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<a href="${movie.url}" target="_blank">${movie.name}</a>`;
+                    results.appendChild(li);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
